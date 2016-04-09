@@ -5,6 +5,7 @@ class rp
 {
 [string]$rpname
 [string]$URI
+[string]$AdminUser
 }
 
 Class GetResourceProviders
@@ -12,8 +13,8 @@ Class GetResourceProviders
 [array]$RP
 GetResourceProviders()
 {
-$this.rp=Get-MgmtSvcResourceProviderConfiguration | foreach {$resp = [rp]::new(); $resp.rpName = $_.Name; $resp.URI =$_.AdminEndPoint.ForwardingAddress.AbsoluteUri; $resp} 
+$this.rp=Get-MgmtSvcResourceProviderConfiguration | foreach {$resp = [rp]::new(); $resp.rpName = $_.Name; $resp.URI =$_.AdminEndPoint.ForwardingAddress.AbsoluteUri; $resp.AdminUser = $_.adminendpoint.authenticationusername; $resp} 
 }
 }
-$res = [GetResourceProviders]::new()
+$res = [GetResourceProviders]::new().rp
 $res

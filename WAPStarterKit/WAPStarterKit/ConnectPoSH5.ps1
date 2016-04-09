@@ -10,11 +10,9 @@ Class WapConStrings
 	[string]$TenantAuth
 	[string]$TenantURI
 	[string]$TenantPublicAPI
-	[string]$AdmimClientRealm
+	[string]$AdminClientRealm
 	WapConStrings()
 	{
-	Import-Module -Name MgmtSvcAdmin
-	Import-Module -Name MgmtSvcConfig
 
 	# Get the AdminSiteURL
 	$this.AdminAPI = (Get-MgmtSvcEndpoint | where {$_.Name -eq "AdminAPI"}).Address
@@ -43,3 +41,8 @@ Class WapConStrings
 }
 
 $wap=[WapConStrings]::new()
+
+# Get the Token
+$token = Get-MgmtSvcToken -ClientRealm $wap.AdminClientRealm -Type Windows -AuthenticationSite $wap.AdminAuth
+
+
